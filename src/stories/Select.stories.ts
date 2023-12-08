@@ -25,6 +25,10 @@ const meta = {
       "Honda NSX (1990-2005)",
       "Mazda RX-7 (1992-2002)",
       "Subaru Impreza WRX (1992-2000)"],
-      placeholder:'Select your car'
+      placeholder:'Select your car',
+      onChange:(value)=>{
+        console.log(value)
+      },
+      maxWidth:0
     }
   };
