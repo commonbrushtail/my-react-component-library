@@ -5,6 +5,8 @@ interface SelectProps {
     lists?: string[],
     placeholder?: string,
     optionListMaxHeight?:number,
+    value:string,
+    onChange:(value:string)=> void,
 }
 
 
@@ -32,9 +34,9 @@ export const Select = ({ mobileMode = 'native', lists = ['0'],optionListMaxHeigh
 
       
     }
-    const handleListClick = (itemValue)=>{
+    const handleListClick = (itemValue:string)=>{
         // setSelectValue(itemValue)
-        
+        setSelectValue(itemValue)
     }
 
 
@@ -65,7 +67,7 @@ export const Select = ({ mobileMode = 'native', lists = ['0'],optionListMaxHeigh
                 {lists.map((item,index)=>{
                 return (
                     
-                    <li  className="cursor-pointer hover:bg-gray-100 px-2" key={index}>{item}</li>
+                    <li  onClick={()=>handleListClick(item)} className="cursor-pointer hover:bg-gray-100 px-2" key={index}>{item}</li>
                 )
             })}
                 </ul>
