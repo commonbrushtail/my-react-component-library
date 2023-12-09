@@ -6,15 +6,15 @@ interface SelectProps {
     lists?: string[],
     placeholder?: string,
     optionListMaxHeight?: number,
-    value?: string,
+    defaultValue:string,
     onChange: (value: string) => void,
 
 }
 
 
-export const Select = ({ lists = ['0'], optionListMaxHeight = 100, onChange, maxWidth, ...props }: SelectProps) => {
+export const Select = ({ lists = ['0'], optionListMaxHeight,defaultValue, onChange, maxWidth, ...props }: SelectProps) => {
     const [selectOpen, setSelectOpen] = useState<boolean>(false)
-    const [selectValue, setSelectValue] = useState<string>()
+    const [selectValue, setSelectValue] = useState<string>(defaultValue ? defaultValue : "")
     const wrapperRef = useRef<HTMLDivElement>(null);
     const desktopListRef = useRef<HTMLDivElement>(null);
     const [isMobile, setIsMobile] = useState<boolean>(false)
@@ -101,13 +101,13 @@ export const Select = ({ lists = ['0'], optionListMaxHeight = 100, onChange, max
             <div ref={desktopListRef} style={{ display: selectOpen ? 'block' : 'none', maxHeight: `${optionListMaxHeight}px` }}
                 className={`absolute top-[100%] left-0 w-max border bg-white rounded py-2 shadow overflow-y-auto`}>
                  {props.placeholder && (
-                        <label className="block text-gray-300 px-2 relative overflow-hidden ">
+                        <label className    ="block text-gray-300 px-2 relative overflow-hidden ">
                             <input className="absolute left-[-9999px]" type="radio" name="select" value="" disabled checked={!selectValue} onChange={handleChangeSelect} />
                             {props.placeholder}
                         </label>
                     )}
                  {lists.map((item, index) => (
-                        <label key={index} className="block cursor-pointer hover:bg-gray-100 px-2 overflow-hidden relative     ">
+                        <label key={index} className="block cursor-pointer hover:bg-gray-100 px-2 overflow-hidden relative label-focus-within     ">
                             <input className="absolute left-[-9999px]"  type="radio" name="select" value={item} checked={selectValue === item} onChange={handleChangeSelect} />
                             {item}
                         </label>

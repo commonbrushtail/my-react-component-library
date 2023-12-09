@@ -21,3 +21,8 @@
 ::-webkit-scrollbar-thumb:hover {
     @apply bg-gray-400
 }
+
+.label-focus-within:focus-within {
+    @apply bg-gray-100; /* or any other color you prefer */
+}
+    

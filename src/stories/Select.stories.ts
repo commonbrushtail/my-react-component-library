@@ -1,6 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Select } from './Select';
-
+const list = [  "Toyota Supra (1993-2002)",
+"Nissan Skyline GT-R (1989-2002)",
+"Honda NSX (1990-2005)",
+"Mazda RX-7 (1992-2002)",
+"Subaru Impreza WRX (1992-2000)"];
 const meta = {
     title: 'Example/Select',
     component: Select,
@@ -20,15 +24,12 @@ const meta = {
 
   export const Default: Story = {
     args:{
-      lists:[  "Toyota Supra (1993-2002)",
-      "Nissan Skyline GT-R (1989-2002)",
-      "Honda NSX (1990-2005)",
-      "Mazda RX-7 (1992-2002)",
-      "Subaru Impreza WRX (1992-2000)"],
+      lists:list,
       placeholder:'Select your car',
       onChange:(value)=>{
         console.log(value)
       },
-      maxWidth:0
+      maxWidth:0,
+      defaultValue:list[0]
     }
   };
