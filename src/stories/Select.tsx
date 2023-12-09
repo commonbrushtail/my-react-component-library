@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import { ChangeEvent } from "react";
 import { useState, useEffect, useRef } from 'react';
 import { getMobileOperatingSystem } from "../utilities/getUserAgentMobile";
 interface SelectProps {
@@ -12,7 +12,7 @@ interface SelectProps {
 }
 
 
-export const Select = ({ lists = ['0'], optionListMaxHeight = 200, onChange, maxWidth, ...props }: SelectProps) => {
+export const Select = ({ lists = ['0'], optionListMaxHeight = 100, onChange, maxWidth, ...props }: SelectProps) => {
     const [selectOpen, setSelectOpen] = useState<boolean>(false)
     const [selectValue, setSelectValue] = useState<string>()
     const wrapperRef = useRef<HTMLDivElement>(null);
@@ -42,7 +42,7 @@ export const Select = ({ lists = ['0'], optionListMaxHeight = 200, onChange, max
 
 
     }
-    const handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>) => {
+    const handleChangeSelect = (e: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>) => {
         const newValue = (e.target as HTMLSelectElement | HTMLInputElement).value;
         setSelectValue(newValue);
         onChange(newValue);
