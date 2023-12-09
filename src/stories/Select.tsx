@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent,MouseEvent } from "react";
 import { useState, useEffect, useRef } from 'react';
 import { getMobileOperatingSystem } from "../utilities/getUserAgentMobile";
 interface SelectProps {
@@ -22,30 +22,41 @@ export const Select = ({ lists = ['0'], optionListMaxHeight,defaultValue, onChan
         setSelectOpen(true)
     }
 
-    // const handleChangeSelect = (e:ChangeEvent<HTMLSelectElement>)=>{
-    //     const event = e
-    //     setSelectValue(event.target.value)
+
+
+
+
+    const handleClickOutside = (e: globalThis.MouseEvent) => {
+        const mouseTarget = e.target as Element;
     
-    // }
-
-    const handleClickOutSide = (e: MouseEvent) => {
-        const mouseTarget = e.target as Element
-
         if (wrapperRef.current && !wrapperRef.current.contains(mouseTarget) && !desktopListRef.current?.contains(mouseTarget)) {
-
-            setSelectOpen(false)
-
-
+            setSelectOpen(false);
         }
-
-
-
-
-    }
-    const handleChangeSelect = (e: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>) => {
-        const newValue = (e.target as HTMLSelectElement | HTMLInputElement).value;
+    };
+    const handleInputClick = (e:MouseEvent<HTMLInputElement>) => {
+        // This function now only handles clicks
+       console.log('input click',e) 
+        const target = e.target as HTMLInputElement;
+        const newValue  = target.value
+        console.log('change:', e.type);
         setSelectValue(newValue);
+        setSelectOpen(false);
         onChange(newValue);
+    };
+
+    const handleChangeSelect = (e:ChangeEvent<HTMLSelectElement>) =>{
+        setSelectValue(e.target.value)
+        setSelectOpen(false)
+        onChange(e.target.value)
+    }
+    const handleKeyboardNavigation = (e: React.KeyboardEvent<HTMLInputElement>) => {
+     
+       
+        if (e.key === 'Enter') {
+            setSelectValue(e.currentTarget.value);
+            setSelectOpen(false);
+            onChange(e.currentTarget.value);
+        }
     };
 
 
@@ -55,10 +66,10 @@ export const Select = ({ lists = ['0'], optionListMaxHeight,defaultValue, onChan
         setIsMobile(isMobileOS);
         console.log("Is Mobile: ", isMobileOS); // Add this line to check the value
 
-        document.addEventListener('mousedown', handleClickOutSide)
+        document.addEventListener('mousedown', handleClickOutside)
 
         return () => {
-            document.removeEventListener('mousedown', handleClickOutSide)
+            document.removeEventListener('mousedown', handleClickOutside)
         }
     }, [])
 
@@ -102,13 +113,13 @@ export const Select = ({ lists = ['0'], optionListMaxHeight,defaultValue, onChan
                 className={`absolute top-[100%] left-0 w-max border bg-white rounded py-2 shadow overflow-y-auto`}>
                  {props.placeholder && (
                         <label className    ="block text-gray-300 px-2 relative overflow-hidden ">
-                            <input className="absolute left-[-9999px]" type="radio" name="select" value="" disabled checked={!selectValue} onChange={handleChangeSelect} />
+                            <input className="absolute left-[-9999px]" type="radio" name="select" value="" disabled checked={!selectValue} />
                             {props.placeholder}
                         </label>
                     )}
                  {lists.map((item, index) => (
-                        <label key={index} className="block cursor-pointer hover:bg-gray-100 px-2 overflow-hidden relative label-focus-within     ">
-                            <input className="absolute left-[-9999px]"  type="radio" name="select" value={item} checked={selectValue === item} onChange={handleChangeSelect} />
+                        <label key={index} className="block cursor-pointer hover:bg-gray-100 px-2 overflow-hidden relative label-focus-within">
+                            <input className="w-full absolute h-full opacity-0 left-0"  type="radio" name="select" value={item}  onMouseDown={handleInputClick}  onKeyDown={handleKeyboardNavigation} />
                             {item}
                         </label>
                     ))}
